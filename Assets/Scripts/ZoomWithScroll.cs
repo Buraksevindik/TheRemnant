@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ZoomWithScroll : MonoBehaviour
 {
-    CameraMovement cameramovement;
+    CameraMovement cameraMovement;
     [SerializeField]
     private Camera cam;
     public CameraControlActions zoom;
@@ -38,8 +38,8 @@ public class ZoomWithScroll : MonoBehaviour
     {
         float newSize = cam.orthographicSize + zoomStep;
         cam.orthographicSize = Mathf.Clamp(newSize,minCamSize,maxCamSize);
-        cameramovement = GetComponent<CameraMovement>();
-        cam.transform.position = cameramovement.ClampCamera(cam.transform.position + cameramovement.difference);
+        cameraMovement = GetComponent<CameraMovement>();
+        cam.transform.position = cameraMovement.ClampCamera(cam.transform.position + cameraMovement.difference);
     }
     #region -Enable / Disable
     private void OnEnable()
