@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+[DefaultExecutionOrder(-1)]
 public class CameraMovement : MonoBehaviour
 {
+    private CameraControlActions cameraControls;
     [SerializeField]
     Camera cam;
     Vector3 dragOrigin;
@@ -12,12 +14,17 @@ public class CameraMovement : MonoBehaviour
     private float mapMinX, mapMaxX, mapMinY, mapMaxY;
     [SerializeField]
     private SpriteRenderer maprenderer;
+
+
     void Update()
     {
-        DragCam();   
+#if UNITY_EDITOR
+        DragCam();
     }
+#if UNITY_ANDROID
     private void Awake()
     {
+        cameraControls = new CameraControlActions();
         //LimitCamera
         mapMinX = maprenderer.transform.position.x - maprenderer.bounds.size.x / 2f;
         mapMaxX = maprenderer.transform.position.x + maprenderer.bounds.size.x / 2f;
@@ -25,7 +32,18 @@ public class CameraMovement : MonoBehaviour
         mapMinY = maprenderer.transform.position.y - maprenderer.bounds.size.y / 2f;
         mapMaxY = maprenderer.transform.position.y + maprenderer.bounds.size.y / 2f;
     }
+    private void OnEnable()
+    {
+        cameraControls.Enable();
+
+    }
+    private void OnDisable()
+    {
+        cameraControls.Disable();
+    }
+#endif
     //LimitCamera
+
     public Vector3 ClampCamera(Vector3 targetPosition) 
     {
         float camHeight = cam.orthographicSize;
@@ -51,5 +69,8 @@ public class CameraMovement : MonoBehaviour
         }
         dragOrigin = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
     }
+#endif
+
+
 }
 

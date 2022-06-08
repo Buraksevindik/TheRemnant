@@ -51,5 +51,4 @@ public class ZoomWithScroll : MonoBehaviour
         zoom.Disable();
     }
     #endregion
-
 }
